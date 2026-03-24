@@ -4,7 +4,7 @@
  * Production-ready TypeScript definitions
  */
 
-import type { Currency, ValidationResult, ValidationError } from './index';
+import type { Currency } from './index';
 
 // ═══════════════════════════════════════════════════════════════════
 // BALANCE SHEET TYPES
@@ -370,20 +370,3 @@ export interface DashboardAction {
   deadline?: string;
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// EXPORTS
-// ═══════════════════════════════════════════════════════════════════
-
-export type {
-  BalanceSheetInput,
-  BalanceSheet,
-  BudgetVarianceInput,
-  BudgetVariance,
-  BudgetLineItem,
-  VarianceLineItem,
-  WorkingCapitalInput,
-  WorkingCapital,
-  DashboardInput,
-  Dashboard,
-  DashboardAction,
-};

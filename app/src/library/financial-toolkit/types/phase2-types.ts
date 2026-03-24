@@ -4,7 +4,7 @@
  * Production-ready TypeScript definitions
  */
 
-import type { Currency, ValidationResult, ValidationError } from './index';
+import type { Currency } from './index';
 
 // ═══════════════════════════════════════════════════════════════════
 // CAPEX (Capital Expenditure) TYPES
@@ -259,25 +259,3 @@ export interface KPISummary extends KPIValue {
   status: 'green' | 'yellow' | 'red';
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// EXPORTS
-// ═══════════════════════════════════════════════════════════════════
-
-export type {
-  CapexInput,
-  Capex,
-  CapexPayment,
-  PayrollInput,
-  Payroll,
-  PayrollDepartment,
-  PayrollDepartmentSummary,
-  TaxCalendarInput,
-  TaxCalendar,
-  TaxObligation,
-  TaxObligationSummary,
-  TaxAlert,
-  OperationsKPIInput,
-  OperationsKPI,
-  KPIValue,
-  KPISummary,
-};

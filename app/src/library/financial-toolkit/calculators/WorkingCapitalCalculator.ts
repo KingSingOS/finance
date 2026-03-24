@@ -5,12 +5,12 @@
  * MIT Licensed
  */
 
-import type { 
-  WorkingCapital, 
-  WorkingCapitalInput, 
-  ValidationResult, 
-  ValidationError 
-} from '../types/phase1-types';
+import type {
+  WorkingCapital,
+  WorkingCapitalInput,
+  ValidationResult,
+  ValidationError
+} from '../types';
 
 export class WorkingCapitalCalculator {
   /**

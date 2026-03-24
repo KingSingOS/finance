@@ -49,6 +49,31 @@ export * from './phase3-types';
 // SHARED RESULT TYPES
 // ═══════════════════════════════════════════════════════════════════
 
+export interface PricingInput {
+  companyId: string;
+  productName: string;
+  costPerUnit: number;
+  desiredMarkup: number;
+  competitor1: number;
+  competitor2: number;
+  competitor3: number;
+  customerProblemCost: number;
+  solutionPercentage: number;
+}
+
+export interface PricingAnalysis {
+  id: string;
+  companyId: string;
+  productName: string;
+  inputs: Omit<PricingInput, 'companyId' | 'productName'>;
+  methods: { costPlus: number; marketRate: number; valueBased: number };
+  anchorPrice: number;
+  minimumPrice: number;
+  analysis: { marginPerUnit: number; marginPercent: number; isBelowMinimum: boolean; recommendation: string };
+  createdAt: number;
+  updatedAt: number;
+}
+
 export interface BaseCalculatorResult {
   id: string;
   companyId: string;
