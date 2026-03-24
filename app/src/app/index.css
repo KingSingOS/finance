@@ -216,6 +216,60 @@
   --color-nt84orangedarker: #C5543B;
 }
 
+/* ── Toolkit mode-specific CSS variables ───────────────────────────────────── */
+:root {
+  /* Ops mode — compact, efficient, blue */
+  --ops-primary: #2563eb;
+  --ops-primary-hover: #1d4ed8;
+  --ops-accent: #eff6ff;
+  --ops-accent-dark: #1e3a5f;
+  --ops-spacing-section: 1rem;
+  --ops-spacing-card: 0.75rem;
+  --ops-font-heading: 1.125rem;
+
+  /* Learning mode — spacious, readable, purple */
+  --learning-primary: #7c3aed;
+  --learning-primary-hover: #6d28d9;
+  --learning-accent: #f5f3ff;
+  --learning-accent-dark: #2e1065;
+  --learning-spacing-section: 2rem;
+  --learning-spacing-card: 1.25rem;
+  --learning-font-heading: 1.5rem;
+
+  /* Active mode defaults to ops */
+  --mode-primary: var(--ops-primary);
+  --mode-primary-hover: var(--ops-primary-hover);
+  --mode-accent: var(--ops-accent);
+  --mode-spacing-section: var(--ops-spacing-section);
+  --mode-spacing-card: var(--ops-spacing-card);
+  --mode-font-heading: var(--ops-font-heading);
+}
+
+/* Applied by ModeProvider via data attribute or class */
+[data-mode='learning'],
+.learning-mode {
+  --mode-primary: var(--learning-primary);
+  --mode-primary-hover: var(--learning-primary-hover);
+  --mode-accent: var(--learning-accent);
+  --mode-spacing-section: var(--learning-spacing-section);
+  --mode-spacing-card: var(--learning-spacing-card);
+  --mode-font-heading: var(--learning-font-heading);
+}
+
+/* Dark mode overrides for mode variables */
+.dark {
+  --ops-accent: var(--ops-accent-dark);
+  --learning-accent: var(--learning-accent-dark);
+}
+
+/* Toolkit layout utilities */
+.ops-layout {
+  --section-gap: var(--ops-spacing-section);
+}
+.learning-layout {
+  --section-gap: var(--learning-spacing-section);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
