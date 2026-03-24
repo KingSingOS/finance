@@ -918,11 +918,8 @@ export default {
 			}
 		}
 
-		// Serve static assets (React app)
-		try {
-			return await (env as any).ASSETS.fetch(request);
-		} catch (error) {
-			// If asset not found, serve index.html for client-side routing
+		// SPA catch-all: non-API routes serve index.html for client-side routing
+		if (!url.pathname.startsWith('/api')) {
 			try {
 				const indexRequest = new Request(new URL("/index.html", request.url), request);
 				return await (env as any).ASSETS.fetch(indexRequest);
