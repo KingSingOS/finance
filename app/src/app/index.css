@@ -227,11 +227,11 @@
   --ops-spacing-card: 0.75rem;
   --ops-font-heading: 1.125rem;
 
-  /* Learning mode — spacious, readable, purple */
-  --learning-primary: #7c3aed;
-  --learning-primary-hover: #6d28d9;
-  --learning-accent: #f5f3ff;
-  --learning-accent-dark: #2e1065;
+  /* Learning mode — spacious, readable, green */
+  --learning-primary: #16a34a;
+  --learning-primary-hover: #15803d;
+  --learning-accent: #f0fdf4;
+  --learning-accent-dark: #052e16;
   --learning-spacing-section: 2rem;
   --learning-spacing-card: 1.25rem;
   --learning-font-heading: 1.5rem;

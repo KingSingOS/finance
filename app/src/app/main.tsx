@@ -6,6 +6,7 @@ import Layout from './Layout'
 import { ModeProvider } from './contexts/ModeContext'
 import CapTablePage from './cap-table/page.tsx'
 import ToolkitPage from './toolkit/page.tsx'
+import ToolPage from './toolkit/ToolPage.tsx'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="/cap-table" replace /> },
       { path: 'cap-table', element: <CapTablePage /> },
       { path: 'toolkit', element: <ToolkitPage /> },
+      { path: 'toolkit/:tool', element: <ToolPage /> },
     ],
   },
 ])

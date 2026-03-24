@@ -34,7 +34,7 @@ function getScoreConfig(score: number): {
     bar: 'bg-yellow-500',
     ring: 'ring-yellow-200 dark:ring-yellow-800',
   }
-  if (score >= 20) return {
+  if (score >= 30) return {
     label: 'Poor',
     color: 'text-orange-700 dark:text-orange-300',
     bg: 'bg-orange-50 dark:bg-orange-900/30',

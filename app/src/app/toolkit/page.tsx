@@ -70,7 +70,7 @@ export default function ToolkitPage() {
 
         {/* Mode alert */}
         <AlertBanner
-          type={mode === 'ops' ? 'info' : 'info'}
+          type={mode === 'ops' ? 'info' : 'success'}
           title={mode === 'ops' ? 'Ops Mode Active' : 'Learning Mode Active'}
           message={
             mode === 'ops'
