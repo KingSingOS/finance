@@ -103,8 +103,8 @@ export default function ToolkitPage() {
           />
           <MetricCard
             label="Sprint"
-            value="1"
-            subtitle="Core architecture"
+            value="5"
+            subtitle="All 18 tools live"
             icon="🚀"
             status="warning"
           />

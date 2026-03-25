@@ -22,6 +22,9 @@ import TaxCalendar from './toolkit/calculators/TaxCalendar/index.tsx'
 import CAPEXTracker from './toolkit/calculators/CAPEXTracker/index.tsx'
 import OperationsKPIs from './toolkit/calculators/OperationsKPIs/index.tsx'
 import BalanceSheet from './toolkit/calculators/BalanceSheet/index.tsx'
+import BudgetVariance from './toolkit/calculators/BudgetVariance/index.tsx'
+import WeeklyReview from './toolkit/calculators/WeeklyReview/index.tsx'
+import ActionPlans from './toolkit/calculators/ActionPlans/index.tsx'
 
 const router = createBrowserRouter([
   {
@@ -49,6 +52,10 @@ const router = createBrowserRouter([
       { path: 'toolkit/capex', element: <CAPEXTracker /> },
       { path: 'toolkit/kpis', element: <OperationsKPIs /> },
       { path: 'toolkit/balance-sheet', element: <BalanceSheet /> },
+      // Sprint 5 calculators
+      { path: 'toolkit/budget-variance', element: <BudgetVariance /> },
+      { path: 'toolkit/weekly-review', element: <WeeklyReview /> },
+      { path: 'toolkit/action-plans', element: <ActionPlans /> },
       // Wildcard for future tools (shows placeholder)
       { path: 'toolkit/:tool', element: <ToolPage /> },
     ],

@@ -44,7 +44,7 @@ export const TOOLKIT_CATEGORIES: Category[] = [
       { id: 'pricing', label: 'Pricing', path: '/toolkit/pricing', description: '3-method anchor pricing' },
       { id: 'break-even', label: 'Break-Even', path: '/toolkit/break-even', description: 'Break-even analysis' },
       { id: 'power-of-one', label: 'Power of One', path: '/toolkit/power-of-one', description: '1% improvement impact' },
-      { id: 'growth', label: 'Growth', path: '/toolkit/growth', description: 'Growth projections' },
+      { id: 'growth', label: 'Growth', path: '/toolkit/sustainable-growth', description: 'Sustainable growth rate' },
       { id: 'founder-salary', label: 'Founder Salary', path: '/toolkit/founder-salary', description: 'Affordable compensation' },
     ],
   },
@@ -54,7 +54,7 @@ export const TOOLKIT_CATEGORIES: Category[] = [
     label: 'Operations',
     tools: [
       { id: 'capex', label: 'CAPEX', path: '/toolkit/capex', description: 'Capital expenditure tracking' },
-      { id: 'payroll', label: 'Payroll', path: '/toolkit/payroll', description: 'Department payroll & capacity' },
+      { id: 'payroll', label: 'Payroll', path: '/toolkit/payroll-kenya', description: 'Kenya statutory deductions' },
       { id: 'tax-calendar', label: 'Tax Calendar', path: '/toolkit/tax-calendar', description: 'Tax obligations & alerts' },
       { id: 'kpis', label: 'Operations KPIs', path: '/toolkit/kpis', description: 'Industry-specific KPIs' },
     ],
