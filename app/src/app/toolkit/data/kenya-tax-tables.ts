@@ -55,7 +55,7 @@ export function calculatePAYE(grossSalary: number): number {
     if (remainingIncome <= 0) break
     const taxableInBand = band.max === Infinity
       ? remainingIncome
-      : Math.min(band.max - band.min + 1, remainingIncome)
+      : Math.min(band.max - band.min + (band.min === 0 ? 0 : 1), remainingIncome)
     tax += taxableInBand * band.rate
     remainingIncome -= taxableInBand
   }
