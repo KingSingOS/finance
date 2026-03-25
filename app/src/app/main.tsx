@@ -17,6 +17,11 @@ import PowerOfOne from './toolkit/calculators/PowerOfOne/index.tsx'
 import SustainableGrowth from './toolkit/calculators/SustainableGrowth/index.tsx'
 import FounderSalary from './toolkit/calculators/FounderSalary/index.tsx'
 import CashLeakage from './toolkit/calculators/CashLeakage/index.tsx'
+import PayrollKenya from './toolkit/calculators/PayrollKenya/index.tsx'
+import TaxCalendar from './toolkit/calculators/TaxCalendar/index.tsx'
+import CAPEXTracker from './toolkit/calculators/CAPEXTracker/index.tsx'
+import OperationsKPIs from './toolkit/calculators/OperationsKPIs/index.tsx'
+import BalanceSheet from './toolkit/calculators/BalanceSheet/index.tsx'
 
 const router = createBrowserRouter([
   {
@@ -38,7 +43,13 @@ const router = createBrowserRouter([
       { path: 'toolkit/sustainable-growth', element: <SustainableGrowth /> },
       { path: 'toolkit/founder-salary', element: <FounderSalary /> },
       { path: 'toolkit/cash-leakage', element: <CashLeakage /> },
-      // Wildcard for Sprint 4+ tools (shows placeholder)
+      // Sprint 4 calculators
+      { path: 'toolkit/payroll-kenya', element: <PayrollKenya /> },
+      { path: 'toolkit/tax-calendar', element: <TaxCalendar /> },
+      { path: 'toolkit/capex', element: <CAPEXTracker /> },
+      { path: 'toolkit/kpis', element: <OperationsKPIs /> },
+      { path: 'toolkit/balance-sheet', element: <BalanceSheet /> },
+      // Wildcard for future tools (shows placeholder)
       { path: 'toolkit/:tool', element: <ToolPage /> },
     ],
   },
