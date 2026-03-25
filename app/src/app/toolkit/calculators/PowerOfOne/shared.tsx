@@ -131,10 +131,8 @@ export function calculatePowerOfOne(inputs: PowerOfOneInputs): PowerOfOneResult 
   const combinedCashImpact = l5Impact + l6Impact + l7Impact
   const combinedImpact = combinedProfitImpact + combinedCashImpact
 
-  // Compound multiplier: (1 + p/100)^n for n active levers
-  const profitLeverPct = ((p1 + p2 + p3 + p4) / 4) / 100
-  const activeProfitLevers = 4
-  const compoundMultiplier = Math.pow(1 + profitLeverPct, activeProfitLevers)
+  // Compound multiplier: true product of all profit lever factors
+  const compoundMultiplier = (1 + p1/100) * (1 + p2/100) * (1 + p3/100) * (1 + p4/100)
 
   return {
     lever1_Price,
