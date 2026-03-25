@@ -13,6 +13,10 @@ import CashForecast from './toolkit/calculators/CashForecast/index.tsx'
 import WorkingCapital from './toolkit/calculators/WorkingCapital/index.tsx'
 import Pricing from './toolkit/calculators/Pricing/index.tsx'
 import BreakEven from './toolkit/calculators/BreakEven/index.tsx'
+import PowerOfOne from './toolkit/calculators/PowerOfOne/index.tsx'
+import SustainableGrowth from './toolkit/calculators/SustainableGrowth/index.tsx'
+import FounderSalary from './toolkit/calculators/FounderSalary/index.tsx'
+import CashLeakage from './toolkit/calculators/CashLeakage/index.tsx'
 
 const router = createBrowserRouter([
   {
@@ -29,7 +33,12 @@ const router = createBrowserRouter([
       { path: 'toolkit/working-capital', element: <WorkingCapital /> },
       { path: 'toolkit/pricing', element: <Pricing /> },
       { path: 'toolkit/break-even', element: <BreakEven /> },
-      // Wildcard for Sprint 3+ tools (shows placeholder)
+      // Sprint 3 calculators
+      { path: 'toolkit/power-of-one', element: <PowerOfOne /> },
+      { path: 'toolkit/sustainable-growth', element: <SustainableGrowth /> },
+      { path: 'toolkit/founder-salary', element: <FounderSalary /> },
+      { path: 'toolkit/cash-leakage', element: <CashLeakage /> },
+      // Wildcard for Sprint 4+ tools (shows placeholder)
       { path: 'toolkit/:tool', element: <ToolPage /> },
     ],
   },
