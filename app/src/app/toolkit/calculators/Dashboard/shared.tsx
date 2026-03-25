@@ -49,19 +49,16 @@ function scoreGrowth(rate?: number): number {
 
 function scoreEfficiency(revenue: number, profit: number): number {
   if (revenue <= 0) return 50
-  const opexRatio = ((revenue - profit) / revenue) * 100
-  if (opexRatio <= 60) return 100
-  if (opexRatio >= 90) return 0
-  return Math.round(((90 - opexRatio) / 30) * 100)
+  const margin = (profit / revenue) * 100
+  return Math.min(100, Math.max(0, Math.round(margin * 5)))
 }
 
-function scoreLiquidity(cashBalance: number, revenue: number, profit: number): number {
-  const monthlyBurn = revenue - profit
-  if (monthlyBurn <= 0) return 100
-  const monthsCovered = cashBalance / monthlyBurn
-  if (monthsCovered >= 6) return 100
-  if (monthsCovered <= 1) return 0
-  return Math.round(((monthsCovered - 1) / 5) * 100)
+function scoreLiquidity(cashBalance: number, profit: number): number {
+  if (profit <= 0) return 100  // no burn
+  const monthsCovered = cashBalance / profit
+  if (monthsCovered >= 5) return 100
+  if (monthsCovered <= 0) return 0
+  return Math.round((monthsCovered / 5) * 100)
 }
 
 function statusFromScore(score: number): HealthStatus {
@@ -80,7 +77,7 @@ export function calculateDashboard(inputs: DashboardInputs): DashboardResult {
     runway: scoreRunway(inputs.runway),
     growth: scoreGrowth(inputs.growthRate),
     efficiency: scoreEfficiency(inputs.revenue, inputs.profit),
-    liquidity: scoreLiquidity(inputs.cashBalance, inputs.revenue, inputs.profit),
+    liquidity: scoreLiquidity(inputs.cashBalance, inputs.profit),
   }
 
   // Weighted average: profitability 20%, runway 25%, growth 15%, efficiency 20%, liquidity 20%

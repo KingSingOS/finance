@@ -36,10 +36,14 @@ export function calculateCashForecast(inputs: CashForecastInputs): CashForecastR
   const WEEKS = 13
   const weeks: WeekRow[] = []
   let cash = inputs.startingCash
-  let runwayWeeks = Infinity
   let breakEvenWeek = 0
   const weeklyNet = inputs.weeklyRevenue - inputs.weeklyExpenses
   let cumulativeFlow = 0
+
+  // Pre-calculate exact runway (not limited to 13-week window)
+  const runwayWeeks = weeklyNet < 0
+    ? Math.floor(inputs.startingCash / Math.abs(weeklyNet))
+    : Infinity
 
   for (let w = 1; w <= WEEKS; w++) {
     const revenue = inputs.weeklyRevenue
@@ -47,10 +51,6 @@ export function calculateCashForecast(inputs: CashForecastInputs): CashForecastR
     const net = revenue - expenses
     cumulativeFlow += net
     cash = cash + net
-
-    if (cash <= 0 && runwayWeeks === Infinity) {
-      runwayWeeks = w - 1
-    }
 
     if (breakEvenWeek === 0 && cumulativeFlow > 0 && weeklyNet > 0) {
       breakEvenWeek = w

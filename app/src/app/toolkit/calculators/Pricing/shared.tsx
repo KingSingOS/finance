@@ -19,7 +19,7 @@ export interface PricingMethod {
 
 export interface PricingResult {
   totalCost: number          // directCosts + overheadAllocation
-  costPlusPrice: number      // cost / (1 - targetMargin/100)
+  costPlusPrice: number      // cost * (1 + targetMargin/100)
   marketPrice: number        // marketRate as provided
   valueBased: number         // valueToClient * (valueCapture/100)
   recommendedPrice: number   // anchor: market-aware, above cost-plus floor
@@ -32,9 +32,7 @@ export interface PricingResult {
 
 export function calculatePricing(inputs: PricingInputs): PricingResult {
   const totalCost = inputs.directCosts + inputs.overheadAllocation
-  const costPlusPrice = inputs.targetMargin < 100
-    ? totalCost / (1 - inputs.targetMargin / 100)
-    : totalCost * 2
+  const costPlusPrice = totalCost * (1 + inputs.targetMargin / 100)
 
   const valueBased = inputs.valueToClient > 0
     ? inputs.valueToClient * (inputs.valueCapture / 100)
@@ -59,7 +57,7 @@ export function calculatePricing(inputs: PricingInputs): PricingResult {
       name: 'Cost-Plus',
       price: costPlusPrice,
       margin: costPlusPrice > 0 ? ((costPlusPrice - totalCost) / costPlusPrice) * 100 : 0,
-      label: `Cost + ${inputs.targetMargin}% margin`,
+      label: `Cost + ${inputs.targetMargin}% markup`,
     },
     ...(inputs.marketRate > 0 ? [{
       name: 'Market Rate',
