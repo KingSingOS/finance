@@ -19,7 +19,7 @@ import type {
   ValidationError,
   Currency
 } from '../types';
-import { IdGenerator, CalcUtils, Validator, StatusDeterminer } from '../utils/shared';
+import { IdGenerator, Validator, StatusDeterminer } from '../utils/shared';
 
 export class DashboardCalculator {
   /**

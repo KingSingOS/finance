@@ -5,14 +5,8 @@
  * MIT Licensed
  */
 
-import type {
-  ActionPlan,
-  ActionPlanInput,
-  ActionItem,
-  ActionItemSummary,
-  ValidationResult,
-  ValidationError
-} from '../types/phase3-types';
+import type { ActionPlan, ActionPlanInput, ActionItem, ActionItemSummary } from '../types/phase3-types';
+import type { ValidationResult, ValidationError } from '../types/index';
 
 export class ActionPlanCalculator {
   /**
@@ -21,7 +15,7 @@ export class ActionPlanCalculator {
   static calculate(input: ActionPlanInput): ActionPlan {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     const today = new Date();

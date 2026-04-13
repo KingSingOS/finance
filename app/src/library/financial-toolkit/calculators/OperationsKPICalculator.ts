@@ -5,14 +5,8 @@
  * MIT Licensed
  */
 
-import type {
-  OperationsKPI,
-  OperationsKPIInput,
-  KPIValue,
-  KPISummary,
-  ValidationResult,
-  ValidationError
-} from '../types/phase2-types';
+import type { OperationsKPI, OperationsKPIInput, KPIValue, KPISummary } from '../types/phase2-types';
+import type { ValidationResult, ValidationError } from '../types/index';
 
 export class OperationsKPICalculator {
   /**
@@ -21,7 +15,7 @@ export class OperationsKPICalculator {
   static calculate(input: OperationsKPIInput): OperationsKPI {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Enhance KPIs with performance assessment

@@ -4,7 +4,7 @@
  * Production-ready TypeScript definitions
  */
 
-import type { Currency, ValidationResult, ValidationError } from './index';
+import type { Currency } from './index';
 
 // ═══════════════════════════════════════════════════════════════════
 // BALANCE SHEET TYPES
@@ -307,56 +307,50 @@ export interface Dashboard {
   companyId: string;
   period: string;
   currency: Currency;
-  
+
   // Overall Health Score (0-100)
   healthScore: number;
   healthStatus: 'excellent' | 'good' | 'warning' | 'critical';
-  
+
   // Key Metrics Summary
   keyMetrics: {
-    // Profitability
     revenue: number;
     revenueGrowth: number; // % vs prior period
     grossMargin: number; // %
     netMargin: number; // %
     ebitda: number;
-    
-    // Liquidity
     cashBalance: number;
-    runway: number; // weeks
+    runwayWeeks: number; // weeks of runway
     burnRate: number;
-    
-    // Working Capital
     dso: number;
     dpo: number;
     workingCapital: number;
-    
-    // Performance
     budgetVariance: number; // %
     forecastAccuracy: number; // %
   };
-  
+
   // Traffic Light Indicators
-  indicators: {
+  trafficLights: {
     profitability: 'green' | 'yellow' | 'red';
     liquidity: 'green' | 'yellow' | 'red';
     workingCapital: 'green' | 'yellow' | 'red';
     budgetPerformance: 'green' | 'yellow' | 'red';
   };
-  
+
   // Top 5 Priority Actions
   priorityActions: DashboardAction[];
-  
-  // Executive Narrative (AI-generated summary)
+
+  // Executive Narrative
   narrative: string;
-  
-  // Trends
-  trends: {
-    revenueDirection: 'up' | 'flat' | 'down';
-    marginDirection: 'improving' | 'stable' | 'declining';
-    cashDirection: 'increasing' | 'stable' | 'decreasing';
+
+  // Component health breakdown
+  healthBreakdown: {
+    profitability: number;
+    liquidity: number;
+    workingCapital: number;
+    budgetPerformance: number;
   };
-  
+
   createdAt: number;
   updatedAt: number;
 }
@@ -364,26 +358,13 @@ export interface Dashboard {
 export interface DashboardAction {
   priority: 'critical' | 'high' | 'medium';
   category: 'cash' | 'revenue' | 'cost' | 'operations';
-  action: string;
-  impact: string; // Estimated $ impact
+  title: string;
+  description: string;
+  recommendation: string;
+  estimatedImpact?: number; // Estimated $ impact
+  action?: string;
+  impact?: string;
   owner?: string;
   deadline?: string;
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// EXPORTS
-// ═══════════════════════════════════════════════════════════════════
-
-export type {
-  BalanceSheetInput,
-  BalanceSheet,
-  BudgetVarianceInput,
-  BudgetVariance,
-  BudgetLineItem,
-  VarianceLineItem,
-  WorkingCapitalInput,
-  WorkingCapital,
-  DashboardInput,
-  Dashboard,
-  DashboardAction,
-};

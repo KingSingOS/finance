@@ -20,7 +20,7 @@ export class CashLeakageCalculator {
   static calculate(input: CashLeakageInput): CashLeakage {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Calculate risk score: impact × frequency × severity

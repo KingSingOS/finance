@@ -14,7 +14,7 @@ export class BreakEvenCalculator {
   static calculate(input: BreakEvenInput): BreakEvenAnalysis {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Core calculations
@@ -66,15 +66,17 @@ export class BreakEvenCalculator {
         fixedCosts: input.fixedCosts,
         pricePerUnit: input.pricePerUnit,
         variableCostPerUnit: input.variableCostPerUnit,
-        currentSales: input.currentSales
+        currentSales: input.currentSales,
+        contributionMargin
       },
-      
+
       results: {
         contributionMargin,
         contributionMarginPercent,
         breakEvenUnits,
         breakEvenRevenue,
         currentRevenue,
+        currentSales: input.currentSales,
         unitsAboveBelowBreakEven,
         isAboveBreakEven,
         percentageToBreakEven
@@ -166,7 +168,7 @@ export class BreakEvenCalculator {
    */
   static getInsights(analysis: BreakEvenAnalysis): string[] {
     const insights: string[] = [];
-    const { results, scenarios, inputs } = analysis;
+    const { results, scenarios } = analysis;
 
     // Current status
     if (results.isAboveBreakEven) {

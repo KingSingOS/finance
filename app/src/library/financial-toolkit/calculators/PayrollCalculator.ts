@@ -5,14 +5,8 @@
  * MIT Licensed
  */
 
-import type {
-  Payroll,
-  PayrollInput,
-  PayrollDepartment,
-  PayrollDepartmentSummary,
-  ValidationResult,
-  ValidationError
-} from '../types/phase2-types';
+import type { Payroll, PayrollInput, PayrollDepartment, PayrollDepartmentSummary } from '../types/phase2-types';
+import type { ValidationResult, ValidationError } from '../types/index';
 
 export class PayrollCalculator {
   /**
@@ -21,7 +15,7 @@ export class PayrollCalculator {
   static calculate(input: PayrollInput): Payroll {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Calculate department summaries

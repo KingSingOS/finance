@@ -5,12 +5,8 @@
  * MIT Licensed
  */
 
-import type { 
-  BalanceSheet, 
-  BalanceSheetInput, 
-  ValidationResult, 
-  ValidationError 
-} from '../types/phase1-types';
+import type { BalanceSheet, BalanceSheetInput } from '../types/phase1-types';
+import type { ValidationResult, ValidationError } from '../types/index';
 
 export class BalanceSheetCalculator {
   /**
@@ -19,7 +15,7 @@ export class BalanceSheetCalculator {
   static calculate(input: BalanceSheetInput): BalanceSheet {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Calculate Current Assets

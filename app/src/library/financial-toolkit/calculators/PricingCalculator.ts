@@ -19,7 +19,7 @@ export class PricingCalculator {
   static calculate(input: PricingInput): PricingAnalysis {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Method 1: Cost-Plus Pricing

@@ -5,15 +5,8 @@
  * MIT Licensed
  */
 
-import type {
-  TaxCalendar,
-  TaxCalendarInput,
-  TaxObligation,
-  TaxObligationSummary,
-  TaxAlert,
-  ValidationResult,
-  ValidationError
-} from '../types/phase2-types';
+import type { TaxCalendar, TaxCalendarInput, TaxObligationSummary, TaxAlert } from '../types/phase2-types';
+import type { ValidationResult, ValidationError } from '../types/index';
 
 export class TaxCalendarCalculator {
   /**
@@ -22,7 +15,7 @@ export class TaxCalendarCalculator {
   static calculate(input: TaxCalendarInput): TaxCalendar {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     const today = new Date();
@@ -316,7 +309,6 @@ export class TaxCalendarCalculator {
     weeklyPayments: Array<{ week: number; amount: number; obligations: number }>;
     totalCashNeeded: number;
   } {
-    const today = new Date();
     const weeklyPayments = Array.from({ length: weeks }, (_, i) => ({
       week: i + 1,
       amount: 0,

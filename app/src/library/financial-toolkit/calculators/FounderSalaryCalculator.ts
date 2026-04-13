@@ -19,7 +19,7 @@ export class FounderSalaryCalculator {
   static calculate(input: FounderSalaryInput): FounderSalaryCalc {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Calculate total personal expenses
@@ -259,7 +259,6 @@ export class FounderSalaryCalculator {
     benchmark: number;
     status: 'above' | 'at' | 'below';
   }[] {
-    const totalExpenses = calc.personalExpenses.total;
     const minimumSalary = calc.minimumSalary;
     const profit = calc.businessFinancials.monthlyProfit;
 

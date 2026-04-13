@@ -6,7 +6,7 @@
 -- WEEKLY REVIEWS
 -- ═══════════════════════════════════════════════════════════════════
 
-CREATE TABLE IF NOT EXISTS weekly_reviews (
+CREATE TABLE weekly_reviews (
   id TEXT PRIMARY KEY,
   company_id TEXT NOT NULL,
   week_number INTEGER NOT NULL CHECK(week_number >= 1 AND week_number <= 53),
@@ -76,7 +76,7 @@ ORDER BY year DESC, week_number DESC;
 -- ACTION PLANS
 -- ═══════════════════════════════════════════════════════════════════
 
-CREATE TABLE IF NOT EXISTS action_plans (
+CREATE TABLE action_plans (
   id TEXT PRIMARY KEY,
   company_id TEXT NOT NULL,
   plan_name TEXT NOT NULL,

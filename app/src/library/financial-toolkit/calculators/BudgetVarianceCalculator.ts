@@ -5,14 +5,8 @@
  * MIT Licensed
  */
 
-import type { 
-  BudgetVariance, 
-  BudgetVarianceInput,
-  BudgetLineItem,
-  VarianceLineItem,
-  ValidationResult, 
-  ValidationError 
-} from '../types/phase1-types';
+import type { BudgetVariance, BudgetVarianceInput, VarianceLineItem } from '../types/phase1-types';
+import type { ValidationResult, ValidationError } from '../types/index';
 
 export class BudgetVarianceCalculator {
   /**
@@ -21,7 +15,7 @@ export class BudgetVarianceCalculator {
   static calculate(input: BudgetVarianceInput): BudgetVariance {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Calculate variance for each line item

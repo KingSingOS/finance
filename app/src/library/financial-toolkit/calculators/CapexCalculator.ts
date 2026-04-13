@@ -12,15 +12,8 @@
  * ✅ No code duplication
  */
 
-import type {
-  Capex,
-  CapexInput,
-  CapexPayment,
-  ValidationResult,
-  ValidationError,
-  Currency
-} from '../types'; // ✅ Unified import
-import { IdGenerator, CalcUtils, Validator, StatusDeterminer } from '../utils/shared'; // ✅ Shared utils
+import type { Capex, CapexInput, ValidationResult, ValidationError } from '../types'; // ✅ Unified import
+import { IdGenerator, CalcUtils, Validator } from '../utils/shared'; // ✅ Shared utils
 
 export class CapexCalculator {
   /**

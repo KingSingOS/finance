@@ -10,10 +10,8 @@ import type {
   WeeklyReviewInput,
   WeeklyMetrics,
   WeeklyVariance,
-  VarianceMetric,
-  ValidationResult,
-  ValidationError
 } from '../types/phase3-types';
+import type { ValidationResult, ValidationError } from '../types/index';
 
 export class WeeklyReviewCalculator {
   /**
@@ -22,7 +20,7 @@ export class WeeklyReviewCalculator {
   static calculate(input: WeeklyReviewInput): WeeklyReview {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Calculate variances for each metric
@@ -122,7 +120,7 @@ export class WeeklyReviewCalculator {
   /**
    * Generate actionable insights from variances
    */
-  private static generateInsights(variances: WeeklyVariance, actuals: WeeklyMetrics): string[] {
+  private static generateInsights(variances: WeeklyVariance, _actuals: WeeklyMetrics): string[] {
     const insights: string[] = [];
 
     // Revenue insights

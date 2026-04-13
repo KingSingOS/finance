@@ -14,7 +14,7 @@ export class PLCalculator {
   static calculate(input: PLStatementInput): PLStatement {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     const grossProfit = input.revenue - input.cogs;

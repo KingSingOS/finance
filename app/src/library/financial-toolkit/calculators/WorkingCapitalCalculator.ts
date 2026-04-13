@@ -5,12 +5,8 @@
  * MIT Licensed
  */
 
-import type { 
-  WorkingCapital, 
-  WorkingCapitalInput, 
-  ValidationResult, 
-  ValidationError 
-} from '../types/phase1-types';
+import type { WorkingCapital, WorkingCapitalInput } from '../types/phase1-types';
+import type { ValidationResult, ValidationError } from '../types/index';
 
 export class WorkingCapitalCalculator {
   /**
@@ -19,7 +15,7 @@ export class WorkingCapitalCalculator {
   static calculate(input: WorkingCapitalInput): WorkingCapital {
     const validation = this.validate(input);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Validation failed: ${validation.errors.map((e: ValidationError) => e.message).join(', ')}`);
     }
 
     // Calculate AR totals and metrics
