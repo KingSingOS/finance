@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source_authority": "direct-source-and-tests",
+  "graph_indexing": "not-configured",
+  "semantic_corpus": "explicit-allowlist-required",
+  "external_model_provider": "not-configured",
+  "external_execution_enabled": false,
+  "credentials": "not-configured",
+  "automatic_hooks": false,
+  "advisory_only": true
+}

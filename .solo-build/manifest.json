@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "files": {
+    ".solo-build/adoption.json": "48b938c3e6307eaf7a8c401dca95ad401d7f46404be1eff490b8859e0c80f99e",
+    ".solo-build/README.md": "a06810064c77948c51f7efc6e212169d54bdd6a4e39172515cd746c065693bde",
+    ".solo-build/verify.py": "8697fb594e5dc7bb5260ba54b9d66f0ad0937cfc8a6e4f8c2d805be553e3272c",
+    ".solo-build/skills.json": "380fb58fe63caaed7b5d210be04c6498975e7c637bc0b2a25ec89f1acd58c2fb",
+    ".solo-build/intelligence.json": "ec939537de35c5ab6657dffc316a416518e32edb550b6493dce0c7e39053e733"
+  }
+}

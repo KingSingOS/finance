@@ -1,0 +1,7 @@
+{
+  "route": "solo-build",
+  "reference_version": "1.1.1-pilot",
+  "installation": "not-installed-by-this-repository",
+  "qualification": "requires-project-canary",
+  "automatic_updates": false
+}
