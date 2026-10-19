@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import WorksheetContainer from "./WorksheetContainer";
 
-const Page: React.FC = () => {
+const Page: React.FC<{ onCreateNew?: () => void }> = ({ onCreateNew }) => {
   // Dark mode state
   const [darkMode, setDarkMode] = useState(false);
   
@@ -57,6 +57,10 @@ const Page: React.FC = () => {
 
   // Create new state (for "New" button)
   const createNewState = () => {
+    if (onCreateNew) {
+      onCreateNew();
+      return;
+    }
     window.location.hash = ""; // This will trigger a reload with no hash
     window.location.reload();
   };

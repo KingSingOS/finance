@@ -39,5 +39,7 @@ jobs:
         run: pnpm run lint
       - name: Test
         run: pnpm test
+      - name: Financial analysis transfer contract
+        run: node scripts/verify-analysis-transfer.mjs
       - name: Build
         run: pnpm run build
