@@ -8,11 +8,10 @@
 import type { 
   BudgetVariance, 
   BudgetVarianceInput,
-  BudgetLineItem,
   VarianceLineItem,
   ValidationResult, 
   ValidationError 
-} from '../types/phase1-types';
+} from '../types';
 
 export class BudgetVarianceCalculator {
   /**
@@ -307,7 +306,7 @@ export class BudgetVarianceCalculator {
     variancePercent: number;
     items: VarianceLineItem[];
   }> {
-    const grouped: Record<string, any> = {};
+    const grouped: ReturnType<typeof BudgetVarianceCalculator.groupByCategory> = {};
 
     variance.lineItems.forEach(item => {
       if (!grouped[item.category]) {
@@ -315,6 +314,7 @@ export class BudgetVarianceCalculator {
           budgeted: 0,
           actual: 0,
           variance: 0,
+          variancePercent: 0,
           items: []
         };
       }

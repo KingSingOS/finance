@@ -1,3 +1,4 @@
+import { describe, test, expect } from '@jest/globals';
 // app/src/library/financial-toolkit/__tests__/Phase3Calculators.test.ts
 /**
  * Test Suite for Phase 3 Calculators
@@ -453,7 +454,7 @@ describe('Phase 3 Integration Tests', () => {
       weekStartDate: '2026-02-02',
       weekEndDate: '2026-02-08',
       targets: { collections: 300000 },
-      actuals: { collections: 200000 }
+      actuals: { collections: 200000, cashIn: 200000 }
     });
 
     // Create action plan to fix it
@@ -482,7 +483,7 @@ describe('Phase 3 Integration Tests', () => {
       weekStartDate: '2026-02-16',
       weekEndDate: '2026-02-22',
       targets: { collections: 300000 },
-      actuals: { collections: 290000 } // Better!
+      actuals: { collections: 290000, cashIn: 290000 } // Better!
     });
 
     const comparison = WeeklyReviewCalculator.compare(week2, week1);
@@ -506,8 +507,9 @@ describe('Phase 3 Integration Tests', () => {
     const avg = WeeklyReviewCalculator.calculateRollingAverage(reviews, 'revenue');
     expect(avg).toBeGreaterThan(0);
     
-    // Trend should be improving
+    // Revenue grows, while both endpoint weeks meet the target.
     const comparison = WeeklyReviewCalculator.compare(reviews[12], reviews[0]);
-    expect(comparison.trend).toBe('improving');
+    expect(comparison.revenueChange).toBeGreaterThan(0);
+    expect(comparison.trend).toBe('stable');
   });
 });

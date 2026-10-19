@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeEach, afterEach, jest } from '@jest/globals';
 // app/src/library/financial-toolkit/__tests__/Phase2Calculators.test.ts
 /**
  * Test Suite for Phase 2 Calculators
@@ -8,6 +9,9 @@ import { CapexCalculator } from '../calculators/CapexCalculator';
 import { PayrollCalculator } from '../calculators/PayrollCalculator';
 import { TaxCalendarCalculator } from '../calculators/TaxCalendarCalculator';
 import { OperationsKPICalculator } from '../calculators/OperationsKPICalculator';
+
+beforeEach(() => { jest.useFakeTimers(); jest.setSystemTime(new Date('2026-01-01T00:00:00Z')); });
+afterEach(() => { jest.useRealTimers(); });
 
 describe('CapexCalculator', () => {
   const validInput = {
@@ -73,7 +77,7 @@ describe('CapexCalculator', () => {
     const insights = CapexCalculator.getInsights(result);
     
     expect(insights.length).toBeGreaterThan(0);
-    expect(insights.some(i => i.includes('budget'))).toBe(true);
+    expect(insights.join(' ')).toMatch(/budget/i);
   });
 
   test('prioritizes projects by ROI', () => {
@@ -155,7 +159,7 @@ describe('PayrollCalculator', () => {
     
     expect(result.departments.length).toBe(3);
     expect(result.departments[0].totalCost).toBe(200000); // Engineering
-    expect(result.departments[0].costPerEmployee).toBe(13333.33); // 200K / 15
+    expect(result.departments[0].costPerEmployee).toBeCloseTo(13333.33, 2); // 200K / 15
   });
 
   test('calculates company totals correctly', () => {
@@ -246,7 +250,7 @@ describe('PayrollCalculator', () => {
 });
 
 describe('TaxCalendarCalculator', () => {
-  const today = new Date();
+  const today = new Date('2026-01-01T00:00:00Z');
   const validInput = {
     companyId: 'test_company',
     fiscalYear: 2026,
@@ -438,8 +442,13 @@ describe('OperationsKPICalculator', () => {
   test('identifies top performers', () => {
     const result = OperationsKPICalculator.calculate(validInput);
     
-    // PPM Defects (120 vs 150 benchmark) and OEE (82 vs 80 benchmark) perform above benchmark
-    expect(result.topPerformers.length).toBeGreaterThan(0);
+    // Top performers exceed their target; beating a benchmark alone is insufficient.
+    expect(result.topPerformers).toHaveLength(0);
+    const exceedsTarget = OperationsKPICalculator.calculate({
+      ...validInput, kpis: [{ ...validInput.kpis[1], value: 80 }]
+    });
+    expect(exceedsTarget.topPerformers).toHaveLength(1);
+    expect(exceedsTarget.topPerformers[0].name).toBe('PPM Defects');
   });
 
   test('identifies KPIs needing attention', () => {

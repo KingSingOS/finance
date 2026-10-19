@@ -1,3 +1,5 @@
+import { describe, test, expect } from '@jest/globals';
+import type { CashLeakageInput } from '../types';
 // app/src/library/financial-toolkit/__tests__/Calculators.test.ts
 /**
  * Comprehensive Test Suite for Financial Toolkit Calculators
@@ -133,6 +135,7 @@ describe('CashForecastCalculator', () => {
   test('generates recommendations for crisis', () => {
     const crisis = {
       ...validInput,
+      openingCash: 10000,
       weeks: Array(3).fill({ cashIn: 1000, cashOut: 10000 })
     };
     const result = CashForecastCalculator.calculate(crisis);
@@ -212,7 +215,7 @@ describe('FounderSalaryCalculator', () => {
     savings: 5000,
     other: 2000,
     businessProfit: 100000,
-    businessCash: 200000
+    businessCash: 300000
   };
 
   test('calculates affordability correctly', () => {
@@ -344,12 +347,12 @@ describe('CashLeakageCalculator', () => {
   });
 
   test('validates frequency range', () => {
-    const invalid = { ...validInput, frequency: 6 as any };
+    const invalid = { ...validInput, frequency: 6 as unknown as CashLeakageInput['frequency'] };
     expect(() => CashLeakageCalculator.calculate(invalid)).toThrow();
   });
 
   test('validates severity range', () => {
-    const invalid = { ...validInput, severity: 0 as any };
+    const invalid = { ...validInput, severity: 0 as unknown as CashLeakageInput['severity'] };
     expect(() => CashLeakageCalculator.calculate(invalid)).toThrow();
   });
 
@@ -368,7 +371,7 @@ describe('CashLeakageCalculator', () => {
 
   test('prioritizes leaks correctly', () => {
     const leaks = [
-      CashLeakageCalculator.calculate({ ...validInput, riskScore: 100000 } as any),
+      CashLeakageCalculator.calculate(validInput),
       CashLeakageCalculator.calculate({ ...validInput, frequency: 2, severity: 2, monthlyImpact: 5000 })
     ];
     

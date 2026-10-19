@@ -108,7 +108,7 @@ export class CashForecastCalculator {
       errors.push({ field: 'weeks', message: 'Weeks array is required', code: 'REQUIRED' });
     } else {
       if (input.weeks.length === 0) {
-        errors.push({ field: 'weeks', message: 'At least one week is required', code: 'MIN_LENGTH' });
+        errors.push({ field: 'weeks', message: 'Cannot calculate forecast with zero weeks', code: 'MIN_LENGTH' });
       }
 
       if (input.weeks.length > 52) {

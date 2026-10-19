@@ -1,3 +1,7 @@
+import type { PLStatement, CashForecast } from './core-types';
+import type { BalanceSheet, WorkingCapital, Dashboard } from './phase1-types';
+import type { Capex, Payroll, TaxCalendar, OperationsKPI } from './phase2-types';
+import type { WeeklyReview, ActionPlan } from './phase3-types';
 // app/src/library/financial-toolkit/types/index.ts
 /**
  * Unified Type Exports - PRODUCTION READY
@@ -18,7 +22,7 @@ export type Currency = 'USD' | 'EUR' | 'GBP' | 'KES' | 'NGN' | 'ZAR' | 'GHS' | '
 export interface ValidationError {
   field: string;
   message: string;
-  code: 'REQUIRED' | 'INVALID_TYPE' | 'INVALID_VALUE' | 'OUT_OF_RANGE' | 'BUSINESS_LOGIC_WARNING';
+  code: 'REQUIRED' | 'INVALID_TYPE' | 'INVALID_VALUE' | 'OUT_OF_RANGE' | 'BUSINESS_LOGIC_WARNING' | 'INVALID_FORMAT' | 'INVALID_RANGE' | 'NEGATIVE_VALUE' | 'MIN_LENGTH' | 'MAX_LENGTH' | 'BUSINESS_LOGIC_ERROR';
 }
 
 export interface ValidationResult {
@@ -41,6 +45,7 @@ export interface CalculatorMetadata {
 // RE-EXPORT ALL PHASE TYPES
 // ═══════════════════════════════════════════════════════════════════
 
+export * from './core-types';
 export * from './phase1-types';
 export * from './phase2-types';
 export * from './phase3-types';
@@ -71,15 +76,15 @@ export interface CompanyFinancialSnapshot {
   companyId: string;
   period: string;
   currency: Currency;
-  pl?: any; // PLStatement
-  balanceSheet?: any; // BalanceSheet
-  cashForecast?: any; // CashForecast
-  workingCapital?: any; // WorkingCapital
-  dashboard?: any; // Dashboard
-  capexProjects?: any[]; // Capex[]
-  payroll?: any; // Payroll
-  taxCalendar?: any; // TaxCalendar
-  operationsKPIs?: any; // OperationsKPI
-  weeklyReviews?: any[]; // WeeklyReview[]
-  actionPlans?: any[]; // ActionPlan[]
+  pl?: PLStatement; // PLStatement
+  balanceSheet?: BalanceSheet; // BalanceSheet
+  cashForecast?: CashForecast; // CashForecast
+  workingCapital?: WorkingCapital; // WorkingCapital
+  dashboard?: Dashboard; // Dashboard
+  capexProjects?: Capex[]; // Capex[]
+  payroll?: Payroll; // Payroll
+  taxCalendar?: TaxCalendar; // TaxCalendar
+  operationsKPIs?: OperationsKPI; // OperationsKPI
+  weeklyReviews?: WeeklyReview[]; // WeeklyReview[]
+  actionPlans?: ActionPlan[]; // ActionPlan[]
 }

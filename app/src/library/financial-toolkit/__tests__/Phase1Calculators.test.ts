@@ -1,3 +1,4 @@
+import { describe, test, expect } from '@jest/globals';
 // app/src/library/financial-toolkit/__tests__/Phase1Calculators.test.ts
 /**
  * Test Suite for Phase 1 Calculators
@@ -32,7 +33,7 @@ describe('BalanceSheetCalculator', () => {
     deferredTaxLiabilities: 100000,
     otherNonCurrentLiabilities: 50000,
     shareCapital: 1000000,
-    retainedEarnings: 1100000,
+    retainedEarnings: 1150000,
     otherEquity: 0
   };
 
@@ -45,7 +46,7 @@ describe('BalanceSheetCalculator', () => {
     expect(result.currentLiabilities.total).toBe(1100000);
     expect(result.nonCurrentLiabilities.total).toBe(950000);
     expect(result.totalLiabilities).toBe(2050000);
-    expect(result.equity.total).toBe(2100000);
+    expect(result.equity.total).toBe(2150000);
   });
 
   test('validates balance sheet equation', () => {
@@ -76,7 +77,7 @@ describe('BalanceSheetCalculator', () => {
     const result = BalanceSheetCalculator.calculate(validInput);
     
     // Debt to Equity = Total Liabilities / Total Equity
-    expect(result.ratios.debtToEquity).toBeCloseTo(0.98, 2);
+    expect(result.ratios.debtToEquity).toBeCloseTo(2050000 / 2150000, 2);
     
     // Debt to Assets = Total Liabilities / Total Assets
     expect(result.ratios.debtToAssets).toBeCloseTo(0.49, 2);
@@ -312,9 +313,11 @@ describe('WorkingCapitalCalculator', () => {
     
     const prioritized = WorkingCapitalCalculator.prioritizeCollections(customers);
     
-    // Most overdue should be first
+    // Owner decision: urgency band first, then largest amount within the band.
     expect(prioritized[0].priority).toBe('urgent');
-    expect(prioritized[0].name).toBe('Customer A'); // 95 days overdue
+    expect(prioritized[0].name).toBe('Customer C'); // Larger of the two urgent debts
+    expect(prioritized[1].name).toBe('Customer A');
+    expect(prioritized[2].name).toBe('Customer B');
   });
 
   test('prioritizes payments correctly', () => {
@@ -486,7 +489,7 @@ describe('Phase 1 Integration Tests', () => {
       deferredTaxLiabilities: 100000,
       otherNonCurrentLiabilities: 50000,
       shareCapital: 1000000,
-      retainedEarnings: 1100000,
+      retainedEarnings: 1150000,
       otherEquity: 0
     };
     

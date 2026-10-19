@@ -1,10 +1,11 @@
+import type { PLStatement, CashForecast, CashLeakageSummary } from './core-types';
 // app/src/library/financial-toolkit/types/phase1-types.ts
 /**
  * Phase 1 Calculator Types - Balance Sheet, Budget Variance, Working Capital, Dashboard
  * Production-ready TypeScript definitions
  */
 
-import type { Currency, ValidationResult, ValidationError } from './index';
+import type { Currency } from './index';
 
 // ═══════════════════════════════════════════════════════════════════
 // BALANCE SHEET TYPES
@@ -293,13 +294,14 @@ export interface DashboardInput {
   currency?: Currency; // Optional, defaults to 'KES'
   period: string;
   
-  // Aggregated data from other calculators
-  plData?: any; // Latest P&L
-  balanceSheetData?: any; // Latest Balance Sheet
-  cashForecastData?: any; // Latest Cash Forecast
-  budgetVarianceData?: any; // Latest Budget Variance
-  workingCapitalData?: any; // Latest Working Capital
-  cashLeakageData?: any; // Latest Cash Leakage Summary
+  // Dashboard accepts partial snapshots as well as complete calculator outputs.
+  plData?: { revenue?: Partial<PLStatement['revenue']>; metrics?: Partial<PLStatement['metrics']>; growth?: { revenueGrowth?: number } };
+  balanceSheetData?: { currentAssets?: Partial<BalanceSheet['currentAssets']>; ratios?: Partial<BalanceSheet['ratios']> };
+  cashForecastData?: { weeks?: CashForecast['weeks']; metrics?: Partial<CashForecast['metrics']> & { runway?: number } };
+  budgetVarianceData?: { summary?: Partial<BudgetVariance['summary']>; insights?: Partial<BudgetVariance['insights']> & { forecastAccuracy?: number } };
+  workingCapitalData?: { accountsReceivable?: Partial<WorkingCapital['accountsReceivable']>; accountsPayable?: Partial<WorkingCapital['accountsPayable']>; cashConversionCycle?: { ccc?: number; status?: string } };
+  cashLeakageData?: CashLeakageSummary;
+
 }
 
 export interface Dashboard {
@@ -324,6 +326,7 @@ export interface Dashboard {
     // Liquidity
     cashBalance: number;
     runway: number; // weeks
+    runwayWeeks: number; // Compatibility with earlier calculator output
     burnRate: number;
     
     // Working Capital
@@ -344,6 +347,9 @@ export interface Dashboard {
     budgetPerformance: 'green' | 'yellow' | 'red';
   };
   
+  trafficLights: Dashboard['indicators'];
+  healthBreakdown: { profitability: number; liquidity: number; workingCapital: number; budgetPerformance: number };
+
   // Top 5 Priority Actions
   priorityActions: DashboardAction[];
   
@@ -351,7 +357,7 @@ export interface Dashboard {
   narrative: string;
   
   // Trends
-  trends: {
+  trends?: {
     revenueDirection: 'up' | 'flat' | 'down';
     marginDirection: 'improving' | 'stable' | 'declining';
     cashDirection: 'increasing' | 'stable' | 'decreasing';
@@ -364,8 +370,12 @@ export interface Dashboard {
 export interface DashboardAction {
   priority: 'critical' | 'high' | 'medium';
   category: 'cash' | 'revenue' | 'cost' | 'operations';
-  action: string;
-  impact: string; // Estimated $ impact
+  title: string;
+  description: string;
+  recommendation: string;
+  estimatedImpact?: number;
+  action?: string;
+  impact?: string; // Estimated $ impact
   owner?: string;
   deadline?: string;
 }
@@ -374,16 +384,3 @@ export interface DashboardAction {
 // EXPORTS
 // ═══════════════════════════════════════════════════════════════════
 
-export type {
-  BalanceSheetInput,
-  BalanceSheet,
-  BudgetVarianceInput,
-  BudgetVariance,
-  BudgetLineItem,
-  VarianceLineItem,
-  WorkingCapitalInput,
-  WorkingCapital,
-  DashboardInput,
-  Dashboard,
-  DashboardAction,
-};
