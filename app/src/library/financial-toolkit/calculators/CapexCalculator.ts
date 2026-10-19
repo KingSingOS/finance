@@ -15,12 +15,10 @@
 import type {
   Capex,
   CapexInput,
-  CapexPayment,
   ValidationResult,
-  ValidationError,
-  Currency
+  ValidationError
 } from '../types'; // ✅ Unified import
-import { IdGenerator, CalcUtils, Validator, StatusDeterminer } from '../utils/shared'; // ✅ Shared utils
+import { IdGenerator, CalcUtils, Validator } from '../utils/shared'; // ✅ Shared utils
 
 export class CapexCalculator {
   /**
@@ -160,7 +158,7 @@ export class CapexCalculator {
     totalCapex: number;
     projects: string[];
   }> {
-    const weeklyNeeds: Array<any> = [];
+    const weeklyNeeds: ReturnType<typeof CapexCalculator.weeklyCapexNeeds> = [];
     const start = new Date(startDate);
 
     for (let i = 0; i < weeks; i++) {

@@ -259,7 +259,6 @@ export class FounderSalaryCalculator {
     benchmark: number;
     status: 'above' | 'at' | 'below';
   }[] {
-    const totalExpenses = calc.personalExpenses.total;
     const minimumSalary = calc.minimumSalary;
     const profit = calc.businessFinancials.monthlyProfit;
 

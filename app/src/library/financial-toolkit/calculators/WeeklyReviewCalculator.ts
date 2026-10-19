@@ -10,10 +10,9 @@ import type {
   WeeklyReviewInput,
   WeeklyMetrics,
   WeeklyVariance,
-  VarianceMetric,
   ValidationResult,
   ValidationError
-} from '../types/phase3-types';
+} from '../types';
 
 export class WeeklyReviewCalculator {
   /**
@@ -85,7 +84,7 @@ export class WeeklyReviewCalculator {
     }
 
     // Generate insights
-    const insights = this.generateInsights(variances, input.actuals);
+    const insights = this.generateInsights(variances);
 
     const now = Date.now();
 
@@ -122,7 +121,7 @@ export class WeeklyReviewCalculator {
   /**
    * Generate actionable insights from variances
    */
-  private static generateInsights(variances: WeeklyVariance, actuals: WeeklyMetrics): string[] {
+  private static generateInsights(variances: WeeklyVariance): string[] {
     const insights: string[] = [];
 
     // Revenue insights

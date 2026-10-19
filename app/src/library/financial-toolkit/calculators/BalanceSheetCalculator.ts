@@ -10,7 +10,7 @@ import type {
   BalanceSheetInput, 
   ValidationResult, 
   ValidationError 
-} from '../types/phase1-types';
+} from '../types';
 
 export class BalanceSheetCalculator {
   /**

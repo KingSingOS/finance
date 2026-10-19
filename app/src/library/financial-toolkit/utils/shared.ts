@@ -65,7 +65,7 @@ export class CalcUtils {
 // ═══════════════════════════════════════════════════════════════════
 
 export class Validator {
-  static required(value: any, field: string, errors: ValidationError[]): void {
+  static required(value: unknown, field: string, errors: ValidationError[]): void {
     if (value === undefined || value === null || value === '') {
       errors.push({
         field,
@@ -76,7 +76,7 @@ export class Validator {
   }
 
   static number(
-    value: any, 
+    value: unknown, 
     field: string, 
     errors: ValidationError[],
     opts?: { min?: number; max?: number; nonNegative?: boolean }
@@ -96,12 +96,12 @@ export class Validator {
     }
   }
 
-  static date(value: any, field: string, errors: ValidationError[]): void {
+  static date(value: unknown, field: string, errors: ValidationError[]): void {
     if (!value) {
       errors.push({ field, message: `Field ${field} is required`, code: 'REQUIRED' });
       return;
     }
-    if (isNaN(new Date(value).getTime())) {
+    if (isNaN(new Date(value as string).getTime())) {
       errors.push({ field, message: `Field ${field} must be valid ISO date`, code: 'INVALID_TYPE' });
     }
   }
@@ -116,13 +116,13 @@ export class Validator {
     }
   }
 
-  static array(value: any, field: string, errors: ValidationError[]): void {
+  static array(value: unknown, field: string, errors: ValidationError[]): void {
     if (!Array.isArray(value) || value.length === 0) {
       errors.push({ field, message: `Field ${field} must be non-empty array`, code: 'REQUIRED' });
     }
   }
 
-  static year(value: any, field: string, errors: ValidationError[], min = 2000, max = 2100): void {
+  static year(value: unknown, field: string, errors: ValidationError[], min = 2000, max = 2100): void {
     if (typeof value !== 'number' || value < min || value > max) {
       errors.push({ field, message: `Field ${field} must be between ${min}-${max}`, code: 'OUT_OF_RANGE' });
     }

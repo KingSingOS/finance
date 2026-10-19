@@ -12,7 +12,7 @@ import type {
   ActionItemSummary,
   ValidationResult,
   ValidationError
-} from '../types/phase3-types';
+} from '../types';
 
 export class ActionPlanCalculator {
   /**

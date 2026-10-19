@@ -166,7 +166,7 @@ export class BreakEvenCalculator {
    */
   static getInsights(analysis: BreakEvenAnalysis): string[] {
     const insights: string[] = [];
-    const { results, scenarios, inputs } = analysis;
+    const { results, scenarios } = analysis;
 
     // Current status
     if (results.isAboveBreakEven) {
@@ -228,7 +228,8 @@ export class BreakEvenCalculator {
     revenue: number;
     percentage: number;
   } {
-    const { currentSales, breakEvenUnits, breakEvenRevenue, currentRevenue } = analysis.results;
+    const { currentSales } = analysis.inputs;
+    const { breakEvenUnits, breakEvenRevenue, currentRevenue } = analysis.results;
     
     const unitsMargin = currentSales - breakEvenUnits;
     const revenueMargin = currentRevenue - breakEvenRevenue;
@@ -245,7 +246,8 @@ export class BreakEvenCalculator {
    * Calculate operating leverage
    */
   static calculateOperatingLeverage(analysis: BreakEvenAnalysis): number {
-    const { contributionMargin, currentSales } = analysis.inputs;
+    const { currentSales } = analysis.inputs;
+    const { contributionMargin } = analysis.results;
     const totalContribution = contributionMargin * currentSales;
     const operatingIncome = totalContribution - analysis.inputs.fixedCosts;
     

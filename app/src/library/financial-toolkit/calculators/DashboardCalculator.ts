@@ -5,7 +5,7 @@
  * 
  * FIXES APPLIED:
  * - Added currency parameterization
- * - Uses shared utilities (IdGenerator, CalcUtils, Validator)
+ * - Uses shared utilities (IdGenerator, Validator)
  * - Added integration helper methods
  * - Consistent validation messages
  * - Removed code duplication
@@ -19,7 +19,7 @@ import type {
   ValidationError,
   Currency
 } from '../types';
-import { IdGenerator, CalcUtils, Validator, StatusDeterminer } from '../utils/shared';
+import { IdGenerator, Validator, StatusDeterminer } from '../utils/shared';
 
 export class DashboardCalculator {
   /**
@@ -34,21 +34,21 @@ export class DashboardCalculator {
     const currency = input.currency || 'KES';
 
     // Extract key metrics
-    const revenue = input.plData?.totals?.revenue || 0;
+    const revenue = input.plData?.revenue?.total || 0;
     const revenueGrowth = input.plData?.growth?.revenueGrowth || 0;
-    const grossMargin = input.plData?.margins?.grossMargin || 0;
-    const netMargin = input.plData?.margins?.netMargin || 0;
-    const ebitda = input.plData?.ebitda || 0;
+    const grossMargin = input.plData?.metrics?.grossMargin || 0;
+    const netMargin = input.plData?.metrics?.netMargin || 0;
+    const ebitda = input.plData?.metrics?.ebitda || 0;
     
-    const cashBalance = input.cashForecastData?.weeks?.[0]?.endingBalance || 
-                       input.balanceSheetData?.assets?.currentAssets?.cashAndEquivalents || 0;
-    const runwayWeeks = input.cashForecastData?.summary?.runwayWeeks || 0;
-    const burnRate = input.cashForecastData?.summary?.avgWeeklyBurn || 0;
+    const cashBalance = input.cashForecastData?.weeks?.[0]?.closingCash || 
+                       input.balanceSheetData?.currentAssets?.cashAndEquivalents || 0;
+    const runwayWeeks = (input.cashForecastData?.metrics?.runway ?? input.cashForecastData?.weeks?.[0]?.runway) || 0;
+    const burnRate = input.cashForecastData?.metrics?.averageBurnRate || 0;
     
-    const dso = input.workingCapitalData?.metrics?.dso || 0;
-    const dpo = input.workingCapitalData?.metrics?.dpo || 0;
-    const ccc = input.workingCapitalData?.metrics?.cashConversionCycle || 0;
-    const workingCapital = input.workingCapitalData?.metrics?.workingCapital || 0;
+    const dso = input.workingCapitalData?.accountsReceivable?.dso || 0;
+    const dpo = input.workingCapitalData?.accountsPayable?.dpo || 0;
+    const ccc = input.workingCapitalData?.cashConversionCycle?.ccc || 0;
+    const workingCapital = input.balanceSheetData?.ratios?.workingCapital || 0;
     
     const budgetVariance = input.budgetVarianceData?.summary?.totalVariancePercent || 0;
     const forecastAccuracy = input.budgetVarianceData?.insights?.forecastAccuracy || 100;
@@ -127,6 +127,7 @@ export class DashboardCalculator {
         netMargin,
         ebitda,
         cashBalance,
+        runway: runwayWeeks,
         runwayWeeks,
         burnRate,
         dso,
@@ -136,6 +137,7 @@ export class DashboardCalculator {
         forecastAccuracy
       },
       
+      indicators: trafficLights,
       trafficLights,
       priorityActions: actions,
       narrative,
@@ -161,11 +163,11 @@ export class DashboardCalculator {
     period: string;
     currency?: Currency;
     // Actual calculator results
-    pl?: any;
-    balanceSheet?: any;
-    cashForecast?: any;
-    workingCapital?: any;
-    budgetVariance?: any;
+    pl?: DashboardInput['plData'];
+    balanceSheet?: DashboardInput['balanceSheetData'];
+    cashForecast?: DashboardInput['cashForecastData'];
+    workingCapital?: DashboardInput['workingCapitalData'];
+    budgetVariance?: DashboardInput['budgetVarianceData'];
   }): Dashboard {
     return this.calculate({
       companyId: params.companyId,
@@ -182,7 +184,7 @@ export class DashboardCalculator {
   /**
    * Generate priority actions
    */
-  private static generateActions(metrics: any): DashboardAction[] {
+  private static generateActions(metrics: { healthScore: number; netMargin: number; runwayWeeks: number; burnRate: number; dso: number; ccc: number; budgetVariance: number; cashBalance: number }): DashboardAction[] {
     const actions: DashboardAction[] = [];
 
     // Critical: Runway < 3 months
@@ -249,7 +251,7 @@ export class DashboardCalculator {
   /**
    * Generate executive narrative
    */
-  private static generateNarrative(data: any): string {
+  private static generateNarrative(data: { healthStatus: Dashboard['healthStatus']; netMargin: number; runwayWeeks: number; dso: number; revenue: number; revenueGrowth: number }): string {
     const parts: string[] = [];
 
     // Health intro
@@ -395,6 +397,15 @@ export class DashboardCalculator {
   /**
    * Get summary insights
    */
+  static getHealthBreakdown(dashboard: Dashboard): Array<{ category: string; score: number }> {
+    return [
+      { category: 'Profitability', score: dashboard.healthBreakdown.profitability },
+      { category: 'Liquidity', score: dashboard.healthBreakdown.liquidity },
+      { category: 'Working Capital', score: dashboard.healthBreakdown.workingCapital },
+      { category: 'Budget Performance', score: dashboard.healthBreakdown.budgetPerformance }
+    ];
+  }
+
   static getInsights(dashboard: Dashboard): string[] {
     const insights: string[] = [];
 

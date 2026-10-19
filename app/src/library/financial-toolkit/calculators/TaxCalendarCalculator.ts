@@ -8,12 +8,11 @@
 import type {
   TaxCalendar,
   TaxCalendarInput,
-  TaxObligation,
   TaxObligationSummary,
   TaxAlert,
   ValidationResult,
   ValidationError
-} from '../types/phase2-types';
+} from '../types';
 
 export class TaxCalendarCalculator {
   /**
@@ -316,7 +315,6 @@ export class TaxCalendarCalculator {
     weeklyPayments: Array<{ week: number; amount: number; obligations: number }>;
     totalCashNeeded: number;
   } {
-    const today = new Date();
     const weeklyPayments = Array.from({ length: weeks }, (_, i) => ({
       week: i + 1,
       amount: 0,

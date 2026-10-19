@@ -12,7 +12,7 @@ import type {
   KPISummary,
   ValidationResult,
   ValidationError
-} from '../types/phase2-types';
+} from '../types';
 
 export class OperationsKPICalculator {
   /**

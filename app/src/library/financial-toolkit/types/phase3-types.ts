@@ -4,7 +4,7 @@
  * Production-ready TypeScript definitions
  */
 
-import type { Currency, ValidationResult, ValidationError } from './index';
+import type { Currency } from './index';
 
 // ═══════════════════════════════════════════════════════════════════
 // WEEKLY REVIEW TYPES
@@ -198,14 +198,3 @@ export interface ActionItemSummary extends ActionItem {
 // EXPORTS
 // ═══════════════════════════════════════════════════════════════════
 
-export type {
-  WeeklyReviewInput,
-  WeeklyReview,
-  WeeklyMetrics,
-  WeeklyVariance,
-  VarianceMetric,
-  ActionPlanInput,
-  ActionPlan,
-  ActionItem,
-  ActionItemSummary,
-};
