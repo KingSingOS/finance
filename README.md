@@ -1,203 +1,63 @@
-# Startup Finance - Development Setup
+# Finance
 
-This project consists of a React app (`app/`) and a Cloudflare Worker (`worker/`) that work together to provide a startup finance calculator with real-time collaboration features.
+One canonical project and application for financial-statement analysis and cap-table modelling. The useful blcbk analysis journeys now live beside Finance's existing cap-table in this repository; a separate blcbk application is not required by this source. The original source histories remain available.
 
-## Development Modes
+Status: **integrated synthetic-data prototype**, updated 19 October 2026. The owner confirms neither prior version is in use and all existing data is synthetic. This is not yet an authenticated, durable, production-qualified financial system.
 
-### 1. Local Development Mode (Recommended)
-Both app and worker run locally with full Miniflare emulation - **no Cloudflare account required**.
+## Start here
 
-```bash
-pnpm run dev:local
+- [Roadmap, checklist and current gaps](docs/project/finance-roadmap.md)
+- [Frontend design contract](design.md)
+- [Approved cap-table and balance-sheet requirements](docs/project/approved-equity-register.md)
+- [Analysis provenance](app/src/app/financial-analysis/PROVENANCE.md)
+
+The analysis screen calculates results, retains/reopens entries in the current tab, supports compatible comparisons and versioned JSON export/import, and shares navigation with the cap-table. **Export before leaving:** retained analyses are in memory, not saved to an account. Worksheet edit links are not authenticated project-admin roles.
+
+## Frontend prototype on this computer
+
+Use Node 22.23.3 and pnpm 9.15.9, matching the qualified CI configuration. From the repository root in PowerShell:
+
+```powershell
+cd app
+pnpm install --frozen-lockfile
+$env:VITE_BACKEND_URL = 'http://127.0.0.1:8787'
+pnpm exec vite --host 127.0.0.1
 ```
 
-This runs:
-- App on `http://localhost:5173` (connects to local worker)
-- Worker on `http://localhost:8787` (using Miniflare)
-- Local SQLite database with full persistence
-- Durable Objects emulation for WebSocket support
+Open the local address Vite prints. The explicit backend URL prevents the inherited development fallback from contacting the hosted Worker. It is a public connection setting, not a secret. No local Worker is started by these commands; cap-table collaboration and backend persistence require a separately qualified local backend. Analysis itself can be explored with synthetic inputs.
 
-### 2. Cloud Development Mode
-The app connects to the deployed Cloudflare Worker in production.
+The root backend-development scripts and Worker setup remain available in source, but the Worker lockfile, runtime resources and recovery path still need qualification. Do not treat their presence as evidence of a working local or live datastore. Never use synthetic checks against real financial data.
 
-```bash
-pnpm run dev:cloud
+## Verify the application
+
+From `app/`:
+
+```text
+pnpm run lint
+pnpm test
+node scripts/verify-analysis-transfer.mjs
+node scripts/verify-document-shell.mjs
+pnpm run build
 ```
 
-This runs:
-- App on `http://localhost:5173` (connects to production worker)
-- Worker locally on `http://localhost:8787` (requires Cloudflare account)
+The unified candidate passed 199 native tests in 17 suites, 59 transfer assertions, lint and TypeScript/Vite build. Six isolated browser checks passed for initial network isolation, fresh totals, actual-input JSON export, retained-entry reopen, cap-table opening and state preservation across module switches. These are bounded synthetic checks. Full import/comparison, legacy links/New, accessibility/mobile, live authorization, backup and recovery still need evidence.
 
-## Environment Configuration
+## Releases require a separate owner action
 
-The app automatically detects the environment and configures the backend URL:
+**Merging to `main` does not deploy Finance.** The `Deploy to Cloudflare Workers` workflow is manually dispatched from `main`, with explicit confirmation and the full qualified revision. It checks a successful main-push CI run and existing BOS resource bindings before frozen installs/build/deployment. It does not create a database, run migrations or repair missing resources.
 
-- **Production builds**: Always use the deployed Cloudflare Worker
-- **Development mode**: Use production worker by default
-- **Local development**: Set `VITE_USE_LOCAL_WORKER=true` to use local worker
+No production release has been approved by the source consolidation. Missing release credentials, unreconciled BOS database/bindings and Worker dependency/lock qualification currently block release. Required-reviewer protection on the GitHub production environment has not been established. Complete the roadmap and release/recovery review before dispatching a release; do not put tokens in source or browser variables.
 
-### Environment Variables
+Persistent approved cap-table versions, server-enforced project-admin approval, audit transactions, durable analysis storage and approved accounting projection into the balance sheet remain required features. Scenarios and valuations must not masquerade as approved book equity. Old repositories and deployments have not been retired.
 
-- `VITE_BACKEND_URL`: Override backend URL (optional)
-- `VITE_USE_LOCAL_WORKER`: Set to `true` to use localhost:8787 in development
+## Source layout
 
-### Worker Configuration
+| Path | Purpose |
+|---|---|
+| `app/` | Unified React analysis and cap-table frontend |
+| `worker/` | Existing Cloudflare API, worksheet and collaboration implementation |
+| `scripts/release-preflight*` | Release source/resource guard and denial tests |
+| `docs/project/` | Authoritative roadmap and approval requirements |
+| `.github/workflows/` | Application checks and explicit release control |
 
-The worker is configured via `worker/wrangler.jsonc` and includes:
-- Durable Objects for real-time state management
-- Static asset serving for the built app
-- WebSocket support for real-time collaboration
-
-## Project Structure
-
-```
-├── app/                    # React frontend
-│   ├── src/
-│   │   ├── app/           # Main app components
-│   │   └── library/       # Shared calculation library
-│   ├── vite.config.ts     # Vite config with proxy setup
-│   └── package.json
-├── worker/                # Cloudflare Worker backend
-│   ├── src/
-│   ├── public/           # Built app assets (from app build)
-│   ├── wrangler.jsonc    # Worker configuration
-│   └── package.json
-└── package.json          # Root package with dev scripts
-```
-
-## Development Workflow
-
-### Initial Setup
-```bash
-npm run install:all
-```
-
-### Development Commands
-
-| Command | Description |
-|---------|-------------|
-| `pnpm run dev` | Local mode - both app and worker run locally (Miniflare) |
-| `pnpm run dev:local` | Same as above - full local development |
-| `pnpm run dev:cloud` | Cloud mode - app connects to deployed worker |
-| `pnpm run dev:staging` | Frontend-only development against staging backend |
-| `pnpm run dev:production` | Frontend-only development against production backend |
-| `pnpm run setup:local` | Initialize local database for Miniflare |
-| `pnpm run install:all` | Install dependencies for all packages |
-| `pnpm run build` | Build app for production |
-| `pnpm run build:staging` | Build app for staging environment |
-| `pnpm run build:production` | Build app for production environment |
-| `pnpm run build:local` | Build app for local development |
-| `pnpm run clean` | Clean all node_modules and local data |
-
-### Worker-specific Commands
-
-| Command | Description |
-|---------|-------------|
-| `cd worker && pnpm run dev:local` | Start worker with Miniflare |
-| `cd worker && pnpm run dev:miniflare` | Start worker with wrangler local mode |
-| `cd worker && pnpm run dev` | Start worker with Cloudflare (requires account) |
-| `cd worker && pnpm run db:init` | Initialize local SQLite database |
-
-### Switching Between Modes
-
-**To use production worker:**
-```bash
-npm run dev
-```
-
-**To use local worker:**
-```bash
-npm run dev:local
-```
-
-The local mode automatically sets `VITE_USE_LOCAL_WORKER=true` to configure the app to use `http://localhost:8787`.
-
-## API Proxy Configuration
-
-The Vite dev server is configured with a proxy that forwards `/api/*` requests to the worker:
-- In production mode: requests go to the deployed worker
-- In local mode: requests go to `http://localhost:8787`
-
-This eliminates CORS issues during development.
-
-## Local Development with Miniflare
-
-The project uses Miniflare for local development, providing a complete Cloudflare Workers environment without requiring a Cloudflare account.
-
-### Features Supported Locally
-
-✅ **Full API compatibility** - All endpoints work exactly like production  
-✅ **WebSocket connections** - Real-time updates via Durable Objects  
-✅ **Database persistence** - SQLite-based D1 emulation  
-✅ **Static asset serving** - Serves the React app  
-✅ **Hot reloading** - Automatic restart on code changes  
-
-### Local Storage
-
-Miniflare stores data locally in `worker/.miniflare/`:
-- `.miniflare/d1/` - SQLite database files
-- `.miniflare/durable-objects/` - Durable Object state  
-- `.miniflare/cache/` - Cache API data
-
-This directory is gitignored and persists between restarts.
-
-### Troubleshooting Local Development
-
-**Database Issues:**
-```bash
-cd worker && rm -rf .miniflare/d1 && pnpm run db:init
-```
-
-**Port Conflicts:**
-Modify the port in `worker/miniflare.config.js` if 8787 is in use.
-
-## WebSocket Support
-
-The app supports real-time collaboration via WebSockets:
-- Production: `wss://your-worker.workers.dev`
-- Local: `ws://localhost:8787`
-
-The backend service automatically handles the protocol switching based on the configured backend URL.
-
-## Testing
-
-Run tests for the app:
-```bash
-cd app && npm test
-```
-
-## Deployment
-
-### Manual Deployment
-
-Deploy the worker to Cloudflare:
-```bash
-npm run build:worker
-```
-
-Build the app for production:
-```bash
-npm run build:app
-```
-
-The built app is automatically placed in `worker/public/` and served by the worker.
-
-### GitHub Actions Deployment
-
-The project includes automated deployment via GitHub Actions (`.github/workflows/deploy-cloudflare.yml`):
-
-1. **Triggers**: Pushes to `main` branch and pull requests
-2. **Process**:
-   - Builds the React app using `pnpm`
-   - Installs worker dependencies using `npm`
-   - Deploys to Cloudflare Workers using `wrangler`
-
-**Required GitHub Secrets:**
-- `CLOUDFLARE_API_TOKEN`: Your Cloudflare API token with Workers:Edit permissions
-
-**Setup Instructions:**
-1. Generate a Cloudflare API token at https://dash.cloudflare.com/profile/api-tokens
-2. Add the token as `CLOUDFLARE_API_TOKEN` in your GitHub repository secrets
-3. Push to `main` branch to trigger deployment
-
-The worker will serve the React app from the root path (`/`) while maintaining API routes at `/api/objects/*`.
+Retain the repository's existing licence and third-party attribution when reusing code. Keep financial records, authentication material and deployment credentials out of Git and telemetry.
