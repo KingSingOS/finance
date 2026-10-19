@@ -49,7 +49,7 @@ export class WeeklyReviewCalculator {
         let status: 'on-track' | 'slight-miss' | 'significant-miss';
         const absVariancePercent = Math.abs(variancePercent);
         
-        if (absVariancePercent <= 5) {
+        if (isFavorable || absVariancePercent <= 5) {
           status = 'on-track';
           metricsOnTrack++;
         } else if (absVariancePercent <= 10) {

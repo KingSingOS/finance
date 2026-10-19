@@ -31,7 +31,7 @@ export class BalanceSheetCalculator {
       input.otherCurrentAssets;
 
     // Calculate Non-Current Assets
-    const netPPE = input.propertyPlantEquipment - input.accumulatedDepreciation;
+    const netPPE = input.propertyPlantEquipment + input.accumulatedDepreciation;
     const nonCurrentAssetsTotal = 
       netPPE +
       input.intangibleAssets +

@@ -135,6 +135,7 @@ describe('CashForecastCalculator', () => {
   test('generates recommendations for crisis', () => {
     const crisis = {
       ...validInput,
+      openingCash: 10000,
       weeks: Array(3).fill({ cashIn: 1000, cashOut: 10000 })
     };
     const result = CashForecastCalculator.calculate(crisis);
@@ -214,7 +215,7 @@ describe('FounderSalaryCalculator', () => {
     savings: 5000,
     other: 2000,
     businessProfit: 100000,
-    businessCash: 200000
+    businessCash: 300000
   };
 
   test('calculates affordability correctly', () => {
