@@ -1,6 +1,6 @@
 # Finance delivery roadmap and retirement checklist
 
-Updated 19 October 2026. One product, one canonical repository (KingSingOS/finance), one production application. v0 is an optional design/build authoring tool for this same source; no permanent dependency on a separate v0-blcbk repository or second project is intended.
+Updated 20 October 2026. One product, one canonical repository (KingSingOS/finance), one production application. v0 is an optional design/build authoring tool for this same source; no permanent dependency on a separate v0-blcbk repository or second project is intended.
 
 ## Current evidence
 
@@ -31,8 +31,19 @@ Updated 19 October 2026. One product, one canonical repository (KingSingOS/finan
 - [ ] Verify the old deployment is no longer a required application/data dependency. Keep rollback window and owner acceptance evidence.
 - [ ] Only then archive v0-blcbk read-only with a Finance redirect and retained history; retire duplicate hosting deliberately. Archival/deletion is not performed by the current UI PR.
 
-Current status: consolidation candidate is reviewable, retirement is NOT safe yet. Roadmap unchecked items are not supplied by a passing source build.
+Current status: unified prototype source is merged; retirement is NOT safe yet. Roadmap unchecked items are not supplied by a passing source build.
 
 ## Integration and release checkpoint — 19 October 2026
 
 The owner approved one canonical Finance source integration and explicit manual production releases. The six browser checks and exact UI-head native CI passed. The separate release-control change removes automatic deployment on merge; source integration does not certify the live Worker or approve a release. Current Cloudflare resource mismatch, missing deployment credentials and Worker dependency/lock qualification remain release blockers. Persistent approved cap-table, project-admin RBAC and balance-sheet projection remain required roadmap features, not implied by the merged prototype.
+
+## Private pilot decision and release-route containment — 20 October 2026
+
+- [x] Owner selected a private invited-member pilot; public self-registration is outside this first access model.
+- [x] Unified source, guarded manual-release control and canonical README merged (PRs 3, 4 and 5). This is source integration, not production release or durable approved records.
+- [x] GitHub workflow states independently read back: legacy deploy-cloudflare-v3.yml, deploy-staging.yml, deploy.yml and staging.yml are disabled_manually. The canonical deploy-cloudflare.yml remains active and manually triggered. No deployment was triggered or existing service stopped.
+- [ ] Select and qualify a supported identity provider; invite redemption must bind the verified identity, expire and resist replay. A project member cannot invite or approve as an admin merely by possessing a worksheet edit link.
+- [ ] Implement server-enforced membership/admin grants, revocation and cross-project denial before storing authoritative approved records. Preserve the existing cap-table model as scenario input; example rows are not approved ownership.
+- [ ] Qualify Worker frozen dependencies/types/tests, persistent transactions, backup/restore and approved balance-sheet projection; run positive and adverse synthetic journeys before any owner release decision.
+
+Legacy workflow source/history remains for audit; repository-level disabled status is a host setting and must be rechecked after migration or workflow replacement. Re-enabling an alternate release route requires explicit owner scope and qualification. The invitation-only decision does not select a provider, create users, grant live roles or authorize deployment.
