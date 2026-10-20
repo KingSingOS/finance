@@ -35,3 +35,17 @@ jobs:
         run: pnpm exec vitest run
         env:
           WRANGLER_SEND_METRICS: 'false'
+      - name: Fresh-process worksheet collaboration
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        working-directory: worker
+        run: timeout 60s node scripts/verify-collaboration.cjs . "$RUNNER_TEMP/finance-collaboration-result.json"
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+      - name: Retain collaboration result
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: synthetic-collaboration-result
+          path: ${{ runner.temp }}/finance-collaboration-result.json
+          if-no-files-found: warn
+          retention-days: 3
