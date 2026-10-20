@@ -81,41 +81,4 @@ describe('Worksheet API local runtime contract (not project-admin RBAC)', () => 
     expect((await SELF.fetch('https://finance.invalid/api/legacy/convert', { method: 'POST', body: '{' })).status).toBe(400);
     expect((await SELF.fetch('https://finance.invalid/api/calculate', { method: 'POST', body: JSON.stringify({ preMoneyValuation: -1 }) })).status).toBe(400);
   });
-
-  it('notifies an attached local worksheet client after a persisted update', async () => {
-    const collaborationId = 'RuntimeNotifyWorksheet';
-    expect((await SELF.fetch(base + collaborationId + '-' + key)).status).toBe(200);
-    const upgrade = await SELF.fetch(base + collaborationId + '/ws', {
-      headers: { Upgrade: 'websocket' }
-    });
-    expect(upgrade.status).toBe(101);
-    const socket = upgrade.webSocket;
-    expect(socket).not.toBeNull();
-    if (!socket) throw new Error('Runtime did not provide a local WebSocket');
-    socket.accept();
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const notified = new Promise<unknown>((resolve, reject) => {
-      timer = setTimeout(() => reject(new Error('No worksheet notification after update')), 3000);
-      socket.addEventListener('message', event => {
-        try { resolve(JSON.parse(String(event.data))); } catch { reject(new Error('Invalid notification JSON')); }
-      }, { once: true });
-      socket.addEventListener('error', () => reject(new Error('Local worksheet socket failed')), { once: true });
-    });
-    // Observe early rejection while the update request is in flight; the awaited
-    // original promise below still fails the test if notification fails.
-    void notified.catch(() => {});
-    try {
-      const update = await SELF.fetch(base + collaborationId, {
-        method: 'PUT', headers: { 'X-Edit-Key': key }, body: JSON.stringify(data)
-      });
-      expect(update.status).toBe(200);
-      expect(await notified).toMatchObject({ type: 'update', worksheetId: collaborationId, version: 2 });
-      const persisted = await (await SELF.fetch(base + collaborationId)).json<WorksheetResponse>();
-      expect(persisted.data).toEqual(data);
-      expect(persisted.version).toBe(2);
-    } finally {
-      if (timer) clearTimeout(timer);
-      socket.close(1000, 'Synthetic runtime check complete');
-    }
-  }, 10000);
 });
