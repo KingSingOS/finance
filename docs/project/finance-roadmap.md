@@ -47,3 +47,9 @@ The owner approved one canonical Finance source integration and explicit manual 
 - [ ] Qualify Worker frozen dependencies/types/tests, persistent transactions, backup/restore and approved balance-sheet projection; run positive and adverse synthetic journeys before any owner release decision.
 
 Legacy workflow source/history remains for audit; repository-level disabled status is a host setting and must be rechecked after migration or workflow replacement. Re-enabling an alternate release route requires explicit owner scope and qualification. The invitation-only decision does not select a provider, create users, grant live roles or authorize deployment.
+
+## Worker dependency baseline clarification — 20 October 2026
+
+The root workspace lock already includes every Worker manifest requirement. The separate worker/pnpm-lock.yaml was missing lz-string, Vitest and the Workers test-pool dependency. The repaired standalone file reuses the existing workspace Worker versions and integrity records; no package manifest or requested dependency version changed. Offline frozen lock-metadata validation passed locally. The new Worker dependency baseline CI performs an actual standalone frozen install with lifecycle scripts disabled, independently of the existing application checks.
+
+This dependency gate does not run Worker types, tests, Wrangler, migrations or a service. Native Worker type/test configuration, local resource isolation, a functioning API and release-resource qualification remain unchecked. Do not infer that the active workspace install was broken merely from the obsolete standalone file.
