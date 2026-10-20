@@ -285,6 +285,9 @@ export class WorksheetCoordinatorDurableObject implements DurableObject {
 		
 		this.sessions.delete(ws);
 		console.log(`👥 Sessions after removal:`, this.sessions.size);
+		// This compatibility date requires an explicit reply to the close frame.
+		// Use the normal default rather than forwarding reserved peer codes such as 1006.
+		ws.close();
 	}
 
 	async webSocketError(ws: WebSocket, error: unknown): Promise<void> {
